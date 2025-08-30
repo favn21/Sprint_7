@@ -3,7 +3,7 @@ package ru.yandex.praktikum.scooter;
 import io.restassured.RestAssured;
 import org.junit.BeforeClass;
 
-import utilModel.AllureEnv;
+import util.AllureEnv;
 
 public class BaseTest {
     @BeforeClass

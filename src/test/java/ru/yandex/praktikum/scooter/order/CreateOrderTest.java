@@ -1,6 +1,7 @@
 package ru.yandex.praktikum.scooter.order;
 
 import io.qameta.allure.*;
+import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.Response;
 import org.junit.After;
 import org.junit.Test;
@@ -8,11 +9,12 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import client.OrderClient;
 import model.Order;
-import utilModel.TestData;
+import util.TestData;
 
 import java.util.List;
 
 import static org.hamcrest.Matchers.*;
+import static org.apache.http.HttpStatus.*;
 
 @Epic("Заказы")
 @Feature("Создание заказа")
@@ -41,7 +43,9 @@ public class CreateOrderTest {
     @Test
     @Story("Создание заказа с разными вариантами цветов")
     @Severity(SeverityLevel.CRITICAL)
-    public void createOrderWithColors() {
+    @DisplayName("Создание заказа с параметром цвета")
+    @Description("Тест проверяет создание заказа с различными вариантами цвета: один, два цвета и без цвета")
+    public void createOrderWithColorsTest() {
         Order order = Order.builder()
                 .firstName(TestData.randomFirstName())
                 .lastName(TestData.randomLastName())
@@ -57,7 +61,7 @@ public class CreateOrderTest {
         Response resp = orderClient.createOrder(order);
 
         trackToCancel = resp.then()
-                .statusCode(201)
+                .statusCode(SC_CREATED)
                 .body("track", notNullValue())
                 .extract().path("track");
         Allure.addAttachment("Ответ на создание заказа", resp.asString());
@@ -67,11 +71,12 @@ public class CreateOrderTest {
     public void tearDown() {
         if (trackToCancel != null) {
             Response cancelResp = orderClient.cancelOrder(trackToCancel);
-            cancelResp.then().statusCode(200);
+            cancelResp.then().statusCode(SC_OK);
             Allure.addAttachment("Ответ на отмену заказа", cancelResp.asString());
         }
     }
 }
+
 
 
 

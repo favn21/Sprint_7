@@ -11,16 +11,18 @@
   <properties>
     <maven.compiler.source>11</maven.compiler.source>
     <maven.compiler.target>11</maven.compiler.target>
+
     <junit.version>4.13.2</junit.version>
     <restassured.version>5.4.0</restassured.version>
     <allure.junit4.version>2.29.1</allure.junit4.version>
     <allure.restassured.version>2.27.0</allure.restassured.version>
-    <allure.version>2.29.1</allure.version>
-    <faker.version>2.4.4</faker.version>
+    <allure.java.commons.version>2.20.1</allure.java.commons.version>
+    <jackson.version>2.17.1</jackson.version>
+    <faker.version>1.6.0</faker.version>
+    <lombok.version>1.18.32</lombok.version>
   </properties>
 
   <dependencies>
-
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
@@ -28,14 +30,11 @@
       <scope>test</scope>
     </dependency>
 
-
     <dependency>
       <groupId>io.rest-assured</groupId>
       <artifactId>rest-assured</artifactId>
       <version>${restassured.version}</version>
-      <scope>test</scope>
     </dependency>
-
 
     <dependency>
       <groupId>io.qameta.allure</groupId>
@@ -44,77 +43,52 @@
       <scope>test</scope>
     </dependency>
 
-
     <dependency>
       <groupId>io.qameta.allure</groupId>
       <artifactId>allure-rest-assured</artifactId>
       <version>${allure.restassured.version}</version>
-      <scope>test</scope>
     </dependency>
 
+    <dependency>
+      <groupId>io.qameta.allure</groupId>
+      <artifactId>allure-java-commons</artifactId>
+      <version>${allure.java.commons.version}</version>
+    </dependency>
 
     <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-databind</artifactId>
-      <version>2.17.1</version>
+      <version>${jackson.version}</version>
     </dependency>
-
 
     <dependency>
       <groupId>net.datafaker</groupId>
       <artifactId>datafaker</artifactId>
-      <version>2.4.4</version>
-      <scope>test</scope>
+      <version>${faker.version}</version>
     </dependency>
-    <dependency>
-      <groupId>io.qameta.allure</groupId>
-      <artifactId>allure-java-commons</artifactId>
-      <version>2.20.1</version>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>io.rest-assured</groupId>
-      <artifactId>rest-assured</artifactId>
-      <version>5.4.0</version>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>net.datafaker</groupId>
-      <artifactId>datafaker</artifactId>
-      <version>2.4.4</version>
-      <scope>compile</scope>
-    </dependency>
+
     <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
-      <version>1.18.32</version>
+      <version>${lombok.version}</version>
       <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>io.qameta.allure</groupId>
-      <artifactId>allure-rest-assured</artifactId>
-      <version>2.27.0</version>
-      <scope>compile</scope>
     </dependency>
   </dependencies>
 
   <build>
     <plugins>
-
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.11.0</version>
         <configuration>
           <source>${maven.compiler.source}</source>
           <target>${maven.compiler.target}</target>
         </configuration>
       </plugin>
 
-       <plugin>
+      <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
-        <version>3.2.5</version>
         <configuration>
           <systemPropertyVariables>
             <allure.results.directory>${project.build.directory}/allure-results</allure.results.directory>
@@ -126,4 +100,12 @@
       </plugin>
     </plugins>
   </build>
+
+  <repositories>
+    <repository>
+      <id>central</id>
+      <url>https://repo.maven.apache.org/maven2</url>
+    </repository>
+  </repositories>
 </project>
+
