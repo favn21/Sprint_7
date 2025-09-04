@@ -33,6 +33,9 @@ public class CreateCourierTest extends BaseTest {
         createResponse.then()
                 .statusCode(SC_CREATED)
                 .body("ok", equalTo(true));
+
+        courierId = createResponse.path("id");
+
         Allure.addAttachment("Ответ на создание курьера", createResponse.asString());
     }
 
@@ -46,6 +49,7 @@ public class CreateCourierTest extends BaseTest {
 
         Response firstCreateResponse = courierClient.create(courierForLogin);
         firstCreateResponse.then().statusCode(SC_CREATED);
+        courierId = firstCreateResponse.path("id");
         Allure.addAttachment("Первый ответ создания курьера", firstCreateResponse.asString());
 
         Response duplicateResponse = courierClient.create(courierForLogin);
@@ -95,19 +99,11 @@ public class CreateCourierTest extends BaseTest {
             Response deleteResponse = courierClient.deleteCourier(courierId);
             deleteResponse.then().statusCode(SC_OK);
             Allure.addAttachment("Удаление тестового курьера", deleteResponse.asString());
-        } else if (courierForLogin != null && courierForLogin.getPassword() != null && courierForLogin.getLogin() != null) {
-            Response loginResponse = courierClient.login(
-                    new CourierLogin(courierForLogin.getLogin(), courierForLogin.getPassword())
-            );
-            if (loginResponse.statusCode() == SC_OK) {
-                courierId = loginResponse.path("id");
-                Response deleteResponse = courierClient.deleteCourier(courierId);
-                deleteResponse.then().statusCode(SC_OK);
-                Allure.addAttachment("Удаление тестового курьера после логина", deleteResponse.asString());
-            }
+            courierId = null;
         }
     }
 }
+
 
 
 

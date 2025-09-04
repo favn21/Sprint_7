@@ -78,9 +78,9 @@ public class LoginCourierTest {
     @DisplayName("Логин без пароля")
     @Description("Проверка, что при попытке входа без пароля возвращается ошибка 400 и сообщение о нехватке данных.")
     public void cannotLoginWithoutPasswordTest() {
-        String loginWithoutPassword = "{ \"login\": \"" + testCourier.getLogin() + "\" }";
+        CourierLogin login = new CourierLogin(testCourier.getLogin(), null);
 
-        Response response = courierClient.loginRaw(loginWithoutPassword);
+        Response response = courierClient.login(login);
 
         response.then()
                 .statusCode(SC_BAD_REQUEST)
@@ -127,5 +127,6 @@ public class LoginCourierTest {
         }
     }
 }
+
 
 
